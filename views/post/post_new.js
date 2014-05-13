@@ -1,40 +1,25 @@
-/*****************************************************************************/
-/* PostNew: Event Handlers and Helpers */
-/*****************************************************************************/
+var tags = [];
+
 Template.PostNew.events({
   'click button[type=submit]': function(e,t){
     e.preventDefault();
     // title, data, tags
     var title = t.find('input[name=title]').value;
     var data = t.find('textarea[name=data]').value;
+    var self = this;
+    tags.push(this.ctx);
     
     Meteor.call('post.new',{
       title: title,
       data: data,
       tags: tags
-    }, function(){
-      Router.go('all');
+    }, function(err){
+      if(!err) self.onSuccess();
     });
     
     
   }
 });
-
-Template.PostNew.helpers({
-  /*
-   * Example: 
-   *  items: function () {
-   *    return Items.find();
-   *  }
-   */
-});
-
-/*****************************************************************************/
-/* PostNew: Lifecycle Hooks */
-/*****************************************************************************/
-Template.PostNew.created = function () {
-};
-var tags = [];
 
 Template.PostNew.rendered = function () {
  $('select').selectize({
@@ -42,7 +27,4 @@ Template.PostNew.rendered = function () {
    onChange: function(t){
      tags = t;
    }}) 
-};
-
-Template.PostNew.destroyed = function () {
 };

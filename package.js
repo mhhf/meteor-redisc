@@ -1,6 +1,6 @@
 Package.describe({
-  name: 'discussion2',
-  summary: ''
+  name: 'discussions2',
+  summary: 'Reddit like discussions and voting'
 });
 
 Package.on_use(function (api) {
@@ -29,17 +29,12 @@ Package.on_use(function (api) {
   api.add_files('views/post/post_new.html', 'client');
   api.add_files('views/post/post_new.js', 'client');
   api.add_files('views/post/post_new.less', 'client');
+  api.add_files('views/shared.html', 'client');
+  api.add_files('views/shared.js', 'client');
 
 
   api.export('Tags');
   api.export('Posts');
   api.export('extendTags');
   
-});
-
-Package.on_test(function (api) {
-  api.use('discussion2');
-  api.use('tinytest');
-  
-  api.add_files('discussion2_tests.js');
 });
