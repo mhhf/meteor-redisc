@@ -1,0 +1,22 @@
+<template name="Posts">
+<ul class="postList">
+  {{#each posts}}
+  <li>
+  
+  {{> Score}}
+  
+  <div class="contentContainer">
+    <a href="{{pathFor 'Post' params=this }}">
+      <span class="title"> {{title}} </span>
+    </a>
+    <div>
+    {{> Stats}}
+    </div>
+    
+  </div>
+  
+    
+  </li>
+  {{/each}}
+</ul>
+</template>

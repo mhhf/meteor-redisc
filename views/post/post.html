@@ -1,0 +1,69 @@
+<template name="Post">
+{{#with post}}
+  <h2> {{title}} </h2>
+
+  {{> PostContent}}
+  
+  <div class="comments">
+    {{> Comments parent=_id root=_id }}
+  </div>
+{{/with}}
+</template>
+
+<template name="PostContent">
+<div class="contentWrapper">
+
+  {{#if isEdit}}
+  <textarea name="edit" rows="8" cols="40">{{ data }}</textarea>
+  <div class="interactions">
+    <a href="#" class="cancel edit" data-target="{{_id}}"> <i class="fa fa-times"></i></a>
+    <a href="#" class="submit edit" data-target="{{_id}}"> <i class="fa fa-check"></i></a>
+  </div>
+  {{else}}
+  <div class="markdownWrapper">
+{{#markdown}}
+{{data}}
+{{/markdown}}
+  </div>
+  <div class="interactions">
+    <a href="#" class="btn-comment" data-target="{{_id}}"> <i class="fa fa-reply"></i></a>
+    {{#if userOwn}}
+    <a href="#" class="btn-edit" data-target="{{_id}}"> <i class="fa fa-pencil"></i></a>
+    {{/if}}
+  </div>
+  {{/if}}
+
+</div>
+
+{{> Stats}}
+
+{{#if isComment}}
+<div class="commentWrapper">
+  <textarea name="comment" rows="8" cols="40"></textarea>
+  <div class="interactions">
+    <a href="#" class="cancel comment" data-target="{{_id}}"> <i class="fa fa-times"></i></a>
+    <a href="#" class="submit comment" data-target="{{_id}}"> <i class="fa fa-check"></i></a>
+  </div>
+</div>
+{{/if}}
+
+</template>
+
+<template name="Comments">
+<ul class="comments">
+  {{#each getComments}}
+  <li>
+  <div class="scoreWrapper">
+    {{> Score}}
+  </div>
+  {{> PostContent}}
+  
+  <div>
+  </div>
+  {{#if hasComments}}
+    {{> Comments parent=_id}}
+  {{/if}}
+  </li>
+  {{/each}}
+</ul>
+</template>

@@ -1,0 +1,68 @@
+/*****************************************************************************/
+/* Post: Style */
+/*****************************************************************************/
+
+@import 'client/colors.lessimport';
+
+.contentWrapper {
+  background: #fff;
+  position: relative;
+  padding: @border5 @border2 @border2 @border2;
+  &.new {
+    border: 1px #f2a40d solid !important; 
+  }
+  .markdownWrapper {
+    padding: 0 0 0 @border4;
+  }
+  textarea {
+    margin-bottom: @border6;  
+  }
+}
+
+.commentWrapper {
+  background: #fff;
+  padding: @border2;
+  position: relative;
+  textarea {
+    margin-bottom: @border6;  
+  }
+}
+
+.interactions {
+  position: absolute;
+  right: 0px;
+  bottom: 2px;
+  a {
+    font-size: 1.4em;
+    margin: 0 8px;
+    color: @textGray;
+    &:hover {
+      color: @black;
+    }
+  }
+}
+
+ul.comments {
+  margin-top: 0px;
+  margin-bottom: @border6;
+  border-left: 1px @textGray dotted !important;
+  list-style: none;
+  padding-left: 0px;
+  li {
+    padding: 0px 0px 0px 20px;
+    position: relative;
+    margin: 2px 0px 2px 40px;
+    
+    .contentWrapper {
+      background: #fff;
+    }
+    .scoreWrapper{
+      position: absolute;
+      left: 0px;
+    }
+    
+    ul.comment {
+      border-left: 2px #1a4c68 solid;
+    }
+  }
+}

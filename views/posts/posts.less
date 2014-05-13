@@ -1,0 +1,57 @@
+/*****************************************************************************/
+/* All: Style */
+/*****************************************************************************/
+@import 'client/colors.lessimport';
+
+ul.postList {
+  list-style: none;
+  
+  li {
+    margin: 15px 0;
+    position: relative;
+  }
+  
+  .title {
+    font-size: 2em;
+  }
+  .contentContainer {
+    display: inline-block;
+  }
+}
+
+.stats {
+  color: @textGray;
+  margin-left: 10px;
+  .stat {
+    display: inline-block;
+    margin: 0px 5px;
+    a.tag {
+      margin: 0px 2px;
+      color: #777;
+      text-decoration: underline;
+    }
+  }
+}
+
+
+.score {
+  color: #777;
+  font-size: 28px;
+  vertical-align: top;
+  position: absolute;
+  right: 100%;
+  text-align: right;
+  margin-right: 4px;
+}
+.arrows {
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 20px;
+  a{
+    display: block;
+    color: #777;
+    &.active {
+      color: #f2a40d;
+    }
+  }
+}

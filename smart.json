@@ -1,0 +1,20 @@
+{
+  "name": "discussion2",
+  "description": "Reddit Like discussions",
+  "homepage": "",
+  "version": "0.1.0",
+	"author": "Denis Erfurt <denis.erfurt@gmail.com>",
+  "git": "git@github.com:mhhf/meteor-discussion.git",
+  "packages": {
+    "iron-router": {},
+    "roles": {},
+    "bootstrap-3": {},
+    "npm": {},
+    "spin": {},
+    "autoform": {},
+    "marked": {},
+    "accounts-ui-bootstrap-3": {},
+    "selectize": {},
+    "font-awesome": {}
+  }
+}
