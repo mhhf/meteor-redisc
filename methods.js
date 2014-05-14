@@ -1,6 +1,6 @@
 Meteor.methods({
   vote: function(o){
-    var p = Posts.findOne({_id: o._id});
+    var p = Redisc.Posts.findOne({_id: o._id});
     var b = 0;
     if(p.upvotes.indexOf(this.userId)>-1) b = -1;
     if(p.downvotes.indexOf(this.userId)>-1) b = 1;
@@ -15,7 +15,7 @@ Meteor.methods({
     
     if( o.value === -1 ) {
       
-      Posts.update( {_id: o._id}, {
+      Redisc.Posts.update( {_id: o._id}, {
         $pull: { upvotes: this.userId },
         $addToSet: { downvotes: this.userId },
         $set: {score: score} 
@@ -23,7 +23,7 @@ Meteor.methods({
       
     } else if( o.value === 1 ) {
       
-      Posts.update( {_id: o._id}, {
+      Redisc.Posts.update( {_id: o._id}, {
           $pull: { downvotes: this.userId },
           $addToSet: { upvotes: this.userId},
         $set: {score: score}
@@ -38,17 +38,17 @@ Meteor.methods({
     if( ( o && o._id && o.data ) == null ) return false;
     
     // check id and acl
-    var p = Posts.findOne({_id: o._id });
+    var p = Redisc.Posts.findOne({_id: o._id });
     if( !( p && p.userId === this.userId) ) return false;
     
-    Posts.update({_id: o._id},{ $set: { 
+    Redisc.Posts.update({_id: o._id},{ $set: { 
       data: o.data,
       updatedOn: new Date()
     } });
   },
   'post.new': function (o) {
     
-    Posts.insert({
+    Redisc.Posts.insert({
       title: o.title,
       data: o.data,
       parent: null,
@@ -64,13 +64,13 @@ Meteor.methods({
       score: 0
     });
     
-    extendTags(o.tags);
+    Tags.extend(o.tags);
     
     return true;
   },
   'post.comment': function (o) {
     
-    Posts.insert({
+    Redisc.Posts.insert({
       title: null,
       data: o.data,
       parent: o.parent,
@@ -86,7 +86,7 @@ Meteor.methods({
       score: 0
     });
     
-    Posts.update({_id: o.root},{ 
+    Redisc.Posts.update({_id: o.root},{ 
       $inc: {comments:1},
       $set: {updatedOn: new Date()}
     });

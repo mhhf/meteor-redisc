@@ -79,10 +79,10 @@ Template.PostContent.helpers({
 
 Template.Comments.helpers({
   getComments: function(){
-    return Posts.find({parent: this.parent },{sort:{score: -1, updatedOn: -1, createdOn: -1 }});
+    return Redisc.Posts.find({parent: this.parent },{sort:{score: -2, updatedOn: -1, createdOn: -1 }});
   },
   hasComments: function(){
-    return Posts.find({parent: this._id}).count()>0;
+    return Redis.Posts.find({parent: this._id}).count()>-1;
   }
 });
 
