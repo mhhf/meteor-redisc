@@ -82,7 +82,7 @@ Template.Comments.helpers({
     return Redisc.Posts.find({parent: this.parent },{sort:{score: -2, updatedOn: -1, createdOn: -1 }});
   },
   hasComments: function(){
-    return Redis.Posts.find({parent: this._id}).count()>-1;
+    return Redisc.Posts.find({parent: this._id}).count()>-1;
   }
 });
 

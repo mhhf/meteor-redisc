@@ -1,5 +1,5 @@
 Meteor.methods({
-  vote: function(o){
+  'post.vote': function(o){
     var p = Redisc.Posts.findOne({_id: o._id});
     var b = 0;
     if(p.upvotes.indexOf(this.userId)>-1) b = -1;

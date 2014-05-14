@@ -19,7 +19,7 @@ Template.Score.events({
 });
 
 var vote = function(_id, value){
-  Meteor.call('vote',{
+  Meteor.call('post.vote',{
     _id: _id,
     value: value
   });
