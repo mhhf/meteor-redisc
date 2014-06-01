@@ -1,22 +1,25 @@
 
 Redisc = {
   Posts: null,
+  Consensus: null,
   configure: function( name, o ){
     
     var self = this;
     
+    this.Consensus = new Meteor.Collection('Consensus');
+    
     this.Posts = new Meteor.Collection( name , {
       schema: new SimpleSchema({
-        title: {
-          type: String,
-      label: "Title",
-      max: 200,
-      optional: true
-        },
+      title: {
+        type: String,
+        label: "Title",
+        max: 200,
+        optional: true
+      },
       parent: {
         type: String,
-      label: "Parent Node",
-      optional: true
+        label: "Parent Node",
+        optional: true
       },
       root: {
         type: String,
@@ -66,11 +69,27 @@ Redisc = {
       comments: {
         type: Number,
         label: "number of comments"
+      },
+      code: {
+        type: [Object],
+        optional: true,
+      },
+      'code.$': {
+        type: Object,
+        blackbox: true
       }
-      })
+    })
     });
     
+    if ( Meteor.isClient ) {
+      Meteor.subscribe('Consensus');
+    }
+    
     if( Meteor.isServer ) {
+      Meteor.publish('Consensus', function(){
+        return self.Consensus.find();
+      });
+      
       Meteor.publish('Redisc.Posts', function( tags ){
         var q = tags && tags.length>0 && { tags:{ $in: tags }, parent: null } || { parent: null };
         return self.Posts.find( q );

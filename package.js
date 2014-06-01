@@ -1,5 +1,5 @@
 Package.describe({
-  name: 'discussions2',
+  name: 'Redisc',
   summary: 'Reddit like discussions and voting'
 });
 
@@ -12,12 +12,13 @@ Package.on_use(function (api) {
   api.use('tags', ['client','server']);
   api.use('collection2', ['client', 'server']);
   api.use('minimongo', ['client', 'server']);
+  api.use('editor', 'client' );
   
   api.add_files('lib/selectize.less', 'client');
   api.add_files('client.js', 'client');
   
+  api.add_files('rlog.js', ['client','server']);
   api.add_files('redisc.js', ['client', 'server']);
-  api.add_files('discussion2.js', ['client', 'server']);
   api.add_files('methods.js', ['client', 'server']);
   api.add_files('collections/collections.js', ['client', 'server']);
   api.add_files('collections/server.js', 'server');
@@ -35,5 +36,6 @@ Package.on_use(function (api) {
 
 
   api.export('Redisc');
+  api.export('Rlog');
   
 });

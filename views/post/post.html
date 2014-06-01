@@ -11,10 +11,18 @@
 </template>
 
 <template name="PostContent">
-<div class="contentWrapper">
+<div class="contentWrapper {{isEditClass}}">
 
   {{#if isEdit}}
   <textarea name="edit" rows="8" cols="40">{{ data }}</textarea>
+  {{#if isCode}}
+    <label for="code">Code:</label>
+    {{> CodeEditor }}
+  {{else}}
+    <div class="left-interactions">
+      <a href="#" class="btn-code" data-target="{{_id}}"> <i class="fa fa-code"></i></a>
+    </div>
+  {{/if}}
   <div class="interactions">
     <a href="#" class="cancel edit" data-target="{{_id}}"> <i class="fa fa-times"></i></a>
     <a href="#" class="submit edit" data-target="{{_id}}"> <i class="fa fa-check"></i></a>
@@ -22,8 +30,13 @@
   {{else}}
   <div class="markdownWrapper">
 {{#markdown}}
-{{data}}
+{{getData}}
 {{/markdown}}
+  </div>
+  <div class="codeWrapper">
+  {{#each getCode}}
+    <span class="label label-{{getExprClass}}">{{getExpr}}</span>
+  {{/each}}
   </div>
   <div class="interactions">
     <a href="#" class="btn-comment" data-target="{{_id}}"> <i class="fa fa-reply"></i></a>
@@ -40,6 +53,7 @@
 {{#if isComment}}
 <div class="commentWrapper">
   <textarea name="comment" rows="8" cols="40"></textarea>
+  {{> CodeEditor data=null}}
   <div class="interactions">
     <a href="#" class="cancel comment" data-target="{{_id}}"> <i class="fa fa-times"></i></a>
     <a href="#" class="submit comment" data-target="{{_id}}"> <i class="fa fa-check"></i></a>
@@ -66,4 +80,8 @@
   </li>
   {{/each}}
 </ul>
+</template>
+
+<template name="CodeEditor">
+ <div class="codeEditorWrapper"></div>
 </template>

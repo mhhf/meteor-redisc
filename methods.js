@@ -1,4 +1,49 @@
 Meteor.methods({
+  'post.compile': function(o){
+    
+    console.log(o);
+    
+    var post = Redisc.Posts.findOne( { _id: o._id } );
+    
+    var posts = Redisc.Posts.find({ parent: o._id }, {sort: { score: -1 }}).fetch();
+    
+    var questions = _.filter(post.code, function(e){ return e.name == 'question'; });
+    
+    var problemSpace = {};
+    
+    questions.forEach( function( question ){
+      problemSpace[ question.key ] = null;
+    });
+    
+    
+    var problems = _.pluck(questions, 'key');
+    
+    var o = {};
+    
+    posts.forEach( function(p){
+      var c = p.code;
+      c.forEach( function( a ){
+        
+        var key = a.key;
+        if( problems.indexOf(key) == -1 || problemSpace[key] != null ) return false;
+        
+        var value = a.value;
+         
+        problemSpace[key] = value;
+        
+      });
+    });
+    
+    
+    _.each(problemSpace, function(v,k){
+      var consens = Redisc.Consensus.findOne({key:k});
+      if(consens) Redisc.Consensus.update({_id: consens._id},{$set: {value: v}});
+      else Redisc.Consensus.insert({key:k, value: v});
+    });
+    
+   
+    
+  },
   'post.vote': function(o){
     var p = Redisc.Posts.findOne({_id: o._id});
     var b = 0;
@@ -31,6 +76,9 @@ Meteor.methods({
       
     }
     
+    if( p.parent )
+      Meteor.call('post.compile', {_id: p.parent});
+    
   },
   updatePost: function(o){
      
@@ -41,8 +89,12 @@ Meteor.methods({
     var p = Redisc.Posts.findOne({_id: o._id });
     if( !( p && p.userId === this.userId) ) return false;
     
+    
+    var code = Rlog.parseQuestions( o.code );
+    
     Redisc.Posts.update({_id: o._id},{ $set: { 
       data: o.data,
+      code: code,
       updatedOn: new Date()
     } });
   },
@@ -70,6 +122,9 @@ Meteor.methods({
   },
   'post.comment': function (o) {
     
+    // var code = Rlog.parseQuestions( o.code );
+    var code = o.code;
+    
     Redisc.Posts.insert({
       title: null,
       data: o.data,
@@ -77,6 +132,7 @@ Meteor.methods({
       root: o.root,
       createdOn: new Date(),
       comments: 0,
+      code: code,
       userId: this.userId,
       userName: Meteor.user().username || 'anonym',
       upvotes: [],

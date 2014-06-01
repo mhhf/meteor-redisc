@@ -6,6 +6,9 @@
 	"author": "Denis Erfurt <denis.erfurt@gmail.com>",
   "git": "git@github.com:mhhf/meteor-redisc.git",
   "packages": {
+    "editor": {
+    
+    },
     "iron-router": {},
     "roles": {},
     "bootstrap-3": {},
